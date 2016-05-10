@@ -108,7 +108,7 @@ display_data(uint8 page, uint8 line, char data[20])
 void ICACHE_FLASH_ATTR
 display_init(void)
 {
-    i2c_init();
+
     while (!LCD_init())
     {
         os_printf("LCD not found\n\r");

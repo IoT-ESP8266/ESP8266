@@ -1,6 +1,7 @@
 #include "ets_sys.h"
 #include "driver/uart.h"
 #include "driver/i2c.h"
+#include "driver/lm75.h"
 #include "driver/i2c_hd44780.h"
 #include "osapi.h"
 #include "os_type.h"
@@ -37,8 +38,11 @@ LOCAL void ICACHE_FLASH_ATTR hello_cb(void *arg)
 	char url_data[100];
 	os_sprintf(url_data,"http://86.105.52.156/add.php?temp1=%d",adc);
 	char numberAsString[5];
-		ets_uart_printf("-----------------------------\r\n");
-	ets_uart_printf("%s",url_data);
+	real32_t sensorval = LM75_f32_GetTemp_f();
+	ets_uart_printf("-----------------------------\r\n");
+	//ets_uart_printf("%s",url_data);
+		ets_uart_printf("Sensor value: %f\r\n	",sensorval);
+
 	ets_uart_printf("-----------------------------\r\n");
 
 
@@ -74,7 +78,7 @@ void user_init(void)
     wifi_station_set_config(&stationConf);
 
     network_init();
-
+    LM75_v_Init_f(0);
     
     os_printf("\n\rStartup done\n\r");
 
